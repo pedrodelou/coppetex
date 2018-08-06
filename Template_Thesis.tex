@@ -1,0 +1,132 @@
+%% Template for the CoppeTeX class
+% Options: "msc" or "dscexam" or "dsc" according to document type
+%		   "english" for dissertation in english (portuguese is the default language)
+%		   "fleqn" for left aligned equations
+ 
+\documentclass[msc,fleqn,english]{coppe}
+
+% The list of symbols and abbreviations:
+% In a terminal put these (change "filename" with the name of your .tex file)
+%
+% makeindex -s coppe.ist -o filename.los filename.syx
+% makeindex -s coppe.ist -o filename.lab filename.abx
+%
+% In text: \symbl{$H_c$}{Control Horizon}
+%		   \abbrev{MPC}{Model Predictive Control}
+
+\makelosymbols
+\makeloabbreviations
+
+%Packages ==============================================================================================================
+\usepackage{lipsum}	%Just for dummy text. You can remove it
+\usepackage[sc]{mathpazo} %Palatino font. You can use other if you want
+
+% Configuration ========================================================================================================
+
+%Title in the desired language. Here we are writting the document in english, so english is the main language.
+%If you are writing in portuguese, put the portuguese title
+\title{Modeling, Control and Optimization of the Enantiomeric Separation of Praziquantel in Simulated Moving Bed}
+
+%Tile in portuguese as the foreign title. If you are writing in portuguese put the title in english here.
+\foreigntitle{Modelagem, Controle e Otimização da Separação Enantiomérica de Praziquantel em Leito Móvel Simulado}
+
+%Author, advisors and examiners
+\author{Ataíde Souza}{Andrade Neto}
+\advisor{Prof.}{Argimiro Resende}{Secchi}{D.Sc.}
+\advisor{Prof.}{Maurício Bezerra de}{Souza Júnior}{D.Sc.}
+\examiner{Prof.}{Argimiro Resende Secchi}{D.Sc.}
+\examiner{Prof.}{Maurício Bezerra de Souza Júnior}{D.Sc.}
+\examiner{Prof.}{Príamo Albuquerque Melo Júnior }{D.Sc.}
+\examiner{Prof.}{Amaro Gomes Barreto Júnior}{D.Sc.}
+
+%Departament and date
+\department{PEQ}
+\date{09}{2015}
+
+%Keywords in Portuguese
+\keyword{Controle preditivo}
+\keyword{Leito móvel simulado}
+\keyword{Enantioseparação}
+\keyword{Praziquantel}
+
+\begin{document}
+	
+	%Make the title page
+	\maketitle
+	
+	%Make the frontmatter page
+	\frontmatter
+	
+	%Dedication
+	\dedication{I dedicate ...}
+	
+	%Optional acknowledgmentschapter
+	\chapter{Acknowledgments}
+	I am thankful ...
+	
+	%Optional epigraph
+	\epigraphm{ 
+		\begin{flushright}
+			\textit{``Reality is that which exists; the unreal does not exist; the unreal is merely that negation of existence which is the content of a human consciousness when it attempts to abandon reason. Truth is the recognition of reality; reason, man’s only means of knowledge, is his only standard of truth.\\
+			The most depraved sentence you can now utter is to ask: Whose reason? The answer is: Yours. No matter how vast your knowledge or how modest, it is your own mind that has to acquire it. It is only with your own knowledge that you can deal. It is only your own knowledge that you can claim to possess or ask others to consider. Your mind is your only judge of truth and if others dissent from your verdict, reality is the court of final appeal. Nothing but a man’s mind can perform that complex, delicate, crucial process of identification which is thinking. Nothing can direct the process but his own judgment. Nothing can direct his judgment but his moral integrity.''}\\[0.5em] (John Galt, from Ayn Rand's \textit{``Atlas Shrugged''})
+		\end{flushright}
+		
+		This is a severe criticism to the lack of discernment. It is a criticism to those who live in ignorance, not for lack of knowledge, but for lack of critical thinking; to those who don't want to reflect upon the events and information that are delivered to them, constantly, on a daily basis. It is mostly a criticism to anyone who put beliefs above facts; to whom propagate ideas, without reason, only for the ``sake'' of replication. Those who live this way, in the shadows of reality, in a non-representative fragment of reality, take on the false as true and the true as false, thereby denying the truth by sheer choice. It is due to the existence of those who choose this path that, in Mrs. Rand's words, \textit{``the truth is not for all men, but only for those who seek it''}, those who seek it not with the eyes, but with their mind, in order to have a reliable picture of what reality truly is --- absolute and unchanging.
+	}
+	
+	
+	% Abstract in portuguese
+	\begin{abstract}
+		
+		\nohyphens{A esquistossomose é a segunda doença parasitária de maior ocorrência no mundo, atrás apenas da malária. Atualmente, o praziquantel é o medicamento mais empregado no tratamento da doença. Neste trabalho, conduziu-se um estudo sobre a separação enantiomérica de praziquantel por cromatografia em leito móvel simulado, abrangendo-se a modelagem, simulação, controle e otimização do processo. A abordagem direta foi empregada a fim de se obter um modelo de alta representatividade. Dois modelos, com diferentes níveis de descrição, foram explorados, a saber: o modelo de equilíbrio local e o modelo de força motriz linear. Um algoritmo NMPC \textit{(Nonlinear Model Predictive Control)}, baseado em um modelo de primeiros princípios acoplado a um estimador de parâmetros foi desenvolvido. Vários cenários de controle, considerando-se falhas na instrumentação e erros de modelagem, foram simulados visando avaliar o esquema de controle proposto. Em todos os casos estudados, o controlador foi capaz de manter as variáveis controladas nos níveis desejados, com uma rápida resposta e ações de controle suaves, mostrando um bom desempenho. Adicionalmente, um pacote computacional generalizado para a modelagem, simulação otimização e controle de separação binária em leito móvel simulado foi desenvolvido.}
+		
+	\end{abstract}
+	
+	% Abstract in english
+	\begin{foreignabstract}
+		
+		\nohyphens{Schistosomiasis is currently the second most occurring parasitical disease in the world, outnumbered only by malaria; nowadays, praziquantel is the main drug employed in its treatment. In this work, a modeling, optimization and control study of praziquantel enantioseparation by simulated moving bed chromatography  was carried out. The direct approach was followed in order to create a representative model of the system and two models of different description levels were explored, namely, the local equilibrium and the linear driving force models. A nonlinear model predictive control based on first principles models, coupled to a parameter estimator, was developed. Several control scenarios concerning instrumentation malfunction and plant-model mismatch were simulated in order to evaluate the proposed control scheme. In every studied case, the controller was able to maintain the controlled variables on the desired levels, with a fast response and smooth actuation, resulting in an excellent performance. Additionally, a general software package for modeling, simulation, optimization and control of binary separations in simulated moving bed is presented.}
+		
+	\end{foreignabstract}
+	
+	
+	\tableofcontents
+	\listoffigures
+	\listoftables
+	\printlosymbols
+	\printloabbreviations
+	\mainmatter
+	
+%% Chapter 1
+\chapter{Introduction}
+\lipsum
+
+%Some figure
+\begin{figure}[!htb]
+	\includegraphics[width=\textwidth]{coppe-logo.jpg}
+	\caption{Logo from \CoppeTeX}
+\end{figure}
+
+%Citation: direct, use \cite{Name}
+%		   indirect, use \citep{Name}
+	
+\section{Motivation}
+\lipsum
+
+%% Chapter 2
+\chapter{Literature review}
+
+%% Chapter 3	
+\chapter{Methodology}
+	
+%% Chapter 4
+\chapter{Results}
+	
+%% Chapter 5
+\chapter{Conclusions}
+	
+	% The references
+	\bibliographystyle{coppe-plain2}
+	%\bibliography{filename.bib}
+	
+\end{document}

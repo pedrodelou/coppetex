@@ -1,0 +1,257 @@
+\documentclass[12pt]{peqdoc}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage{indentfirst}
+\usepackage[brazil]{babel}
+\usepackage{outlines}
+
+
+\title{Aula 01: Problema de Valor Inicial (PVI)}
+\author{Prof. Ataíde Neto}
+
+\begin{document}
+	
+	\maketitle
+	
+	\section{Definição}
+	
+	Quando falamos em simulação dinâmica, queremos resolver o seguinte problema:
+	\begin{equation}
+	\*F\bigg[t,\*y(t),\frac{d\*y}{dt}\bigg] = \*0 \label{PVI-FI}
+	\end{equation}
+	\noindent isto é, encontrar o vetor de funções $\*y(t)$ que, juntamente com sua derivada $\*y'(t)$, satisfaça o funcional $\*F(t,\*y,\*y')=0$ para todo valor de $t\in\mathbb{I}$.
+	Adicionalmente, para encontrarmos uma solução particular, a Equação (\ref{PVI-FI}) deve acompanhar uma condição inicial:
+	\begin{equation}
+	\*y(t_0) = \*y_0\label{Initial}
+	\end{equation} 
+	\noindent Dessa forma, o conjunto das Equações (\ref{PVI-FI})-(\ref{Initial}) constitui um Problema de Valor Inicial, ou PVI:
+	\begin{equation}
+	\left\{\begin{matrix}
+	\*F(t,\*y,\*y') = 0\\ \*y(t_0) = \*y_0
+	\end{matrix}\right.
+	\end{equation}
+	
+	Em alguns casos particulares, a Equação (\ref{PVI-FI}) pode ser reescrita explicitamente como:
+	\begin{equation}
+	\frac{d\*y}{dt} = \*f(t,\*y)\label{EDO}
+	\end{equation}
+	\noindent dando-se origem a um sistema de Equações Diferenciais Ordinárias (EDOs). Isso será possível sempre que o vetor $\*F(t,\*y,\*y')$ for constituído apenas de equações diferenciais. Contudo, em muitas aplicações de Engenharia Química o vetor $\*F(t,\*y,\*y')$ contém, além de EDOs (balanços de massa, energia ou momento), equações algébricas (equações de fluxo, taxa, válvula \textit{etc.}). Nesses casos, a Equação (\ref{PVI-FI}) pode ser reescrita na forma:
+	\begin{equation}
+	\left\{\begin{matrix}
+	\displaystyle\frac{d\*y}{dt} = \*f(t,\*y) \\ \*0 = \*g(t,\*y)
+	\end{matrix}\right.\label{EAD}
+	\end{equation}
+	\noindent dando-se origem a um sistema de Equações Algébrico-Diferenciais (EADs).
+	
+	De uma forma genérica, as Equações (\ref{EDO}) e (\ref{EAD}) podem ser colocadas na forma:
+	\begin{equation}
+	\*B\*y'=\*f(t,\*y)
+	\end{equation}
+	\noindent em que $\*B$ é chamada de ``matriz de massa'' do sistema, sendo: \textit{(i)} de posto cheio, no caso de um sistema de EDOs; ou \textit{(ii)} de posto deficiente, no caso de um sistema de EADs.
+	
+	\noindent Exemplos:
+	\begin{align*}
+	&(1)\ \left\{\begin{matrix}
+	\displaystyle V\frac{dC}{dt} = F_0(C_0-C) - k_0e^{-\frac{E}{RT}}C^2V\\[2ex]
+	\displaystyle\quad \rho VC_p\frac{dT}{dt} = F\rho C_p(T_0-T) - \Delta Hk_0e^{-\frac{E}{RT}}C^2V
+	\end{matrix}\right. \Rightarrow  \left[\begin{matrix}
+	V&0\\0&\rho VC_p
+	\end{matrix}\right]\left[\begin{matrix}
+	C'\\T'
+	\end{matrix}\right]=\left[\begin{matrix}
+	f_1(t,[C, T]^T)\\f_2(t,[C, T]^T)
+	\end{matrix}\right]\\[2ex]
+	&(2)\ \left\{\begin{matrix}
+	\displaystyle \frac{dC_A}{dt} = -k_1C_A\\[2ex]
+	\displaystyle \frac{dC_B}{dt} = -k_2C_B\\[2ex]
+	0 = C_A + C_B + C_C - C_0
+	\end{matrix}\right. \quad\Rightarrow \qquad
+	\left[\begin{matrix}
+	1 & 0 & 0 \\
+	0 & 1 & 0 \\
+	0 & 0 & 0 
+	\end{matrix}\right]\left[\begin{matrix}
+	C_A' \\ C_B' \\ C_C'
+	\end{matrix}\right]=\left[\begin{matrix}
+	-k_1C_A \\ -k_2C_B \\ C_A + C_B + C_C - C_0
+	\end{matrix}\right]
+	\end{align*}
+	
+	\section{Métodos numéricos para EDOs}
+	
+	Seja o PVI dado por:
+	\begin{equation}
+	\left\{\begin{matrix}
+	\displaystyle\frac{d\*y}{dt} = \*f(t,\*y) & \\ \*y(t_0) = \*y_0 &  
+	\end{matrix}\right.\quad \forall t\in[t_0,\ t_n]\label{PVI-EDO}
+	\end{equation}
+	\noindent Quando o sistema não apresenta solução analítica, ou esta é de difícil obtenção, devemos aplicar um método numérico a fim de se obter a solução desejada $\*y(t)$. Integrando-se a Equação (\ref{PVI-EDO}) entre os limites $[t_i,\ t_{i+1}]$, com $\ i = 0,\ 1, 2,\ldots,\ n-1$, temos que:
+	\begin{equation}
+	\int_{t_i}^{t_{i+1}}{\frac{d\*y}{dt}dt} = \int_{t_i}^{t_{i+1}}{\*f(t,\*y)dt}\label{integral}
+	\end{equation}
+	\noindent daí,
+	\begin{equation}
+	\*y(t_{i+1}) - \*y(t_i) = \int_{t_i}^{t_{i+1}}{\*f(t,\*y)dt}
+	\end{equation}
+	\noindent e fazendo $\*y(t_{k}) = \*y_{k}$,
+	\begin{equation}
+	\*y_{i+1} = \*y_i + \int_{t_i}^{t_{i+1}}{\*f(t,\*y)dt}\label{partida}
+	\end{equation}
+	
+	Uma vez que a integral de $\*f(t,\*y)$ não pode ser obtida, devemos fazer alguma aproximação. Os diferentes métodos de resolução de PVI surgirão, portanto, das diferentes aproximações que propusermos para essa integral.
+	
+	\subsection{Método de Euler explícito $\rightarrow\*f(t,\*y)\approx \*f(t_i,\*y_i)$}
+	
+	Considere a seguinte aproximação para $\*f(t,\*y)$ dentro do intervalo $[t_i,\ t_{i+1}]$
+	\begin{equation}
+	\*f(t,\*y)\approx \*f(t_i,\*y_i)
+	\end{equation}
+	\noindent Ou seja, $\*f(t,\*y)$ é constante e tem seu valor igual àquele definido no início do intervalo. Dessa forma, podemos integrar o lado direito da Equação (\ref{integral}), resultando em
+	\begin{equation}
+	\int_{t_i}^{t_{i+1}}{\*f(t,\*y)dt} \approx \int_{t_i}^{t_{i+1}}{\*f(t_i,\*y_i)dt} = \*f(t_i,\*y_i)\int_{t_i}^{t_{i+1}}{dt} = \*f(t_i,\*y_i)(t_{i+1}-t_i)
+	\end{equation}
+	\noindent e fazendo $h=t_{i+1} - t_i$
+	\begin{equation}
+	\int_{t_i}^{t_{i+1}}{\*f(t,\*y)dt} \approx h\*f(t_i,\*y_i)\label{int_EE}
+	\end{equation}
+	
+	Substituindo a Equação (\ref{int_EE}) em (\ref{partida}), obtemos a fórmula recursiva do \textbf{Método de Euler Explícito}
+	\begin{equation}
+	\boxed{\*y_{i+1} = \*y_i + h\*f(t_i,\*y_i)}\label{EulerE}
+	\end{equation}
+	\noindent para $i=0,\ 1\ ,2\ \ldots,\ n-1$. Ao fim do \textit{n}-ésimo passo de integração, nós conheceremos $n+1$ valores da função $\*y(t)$ dentro do intervalo de integração $[t_0,\ t_n]$.
+	
+	\subsection{Método de Euler implícito $\rightarrow\*f(t,\*y)\approx \*f(t_{i+1},\*y_{i+1})$}
+	
+	Analogamente podemos propor a seguinte aproximação para $\*f(t,\*y)$ dentro do intervalo $[t_i,\ t_{i+1}]$
+	\begin{equation}
+	\*f(t,\*y)\approx \*f(t_{i+1},\*y_{i+1})
+	\end{equation}
+	\noindent Ou seja, $\*f(t,\*y)$ é constante e tem seu valor igual àquele definido no fim do intervalo. Dessa forma, a integral do lado direito da Equação (\ref{integral}) é dada por
+	\begin{equation}
+	\int_{t_i}^{t_{i+1}}{\*f(t,\*y)dt} \approx h\*f(t_{i+1},\*y_{i+1})\label{int_EI}
+	\end{equation}
+	\noindent E após a substituição na Equação (\ref{partida}) obtemos a fórmula recursiva do \textbf{Método de Euler Implícito}
+	\begin{equation}
+	\boxed{\*y_{i+1} = \*y_i + h\*f(t_{i+1},\*y_{i+1})}\label{EulerI}
+	\end{equation}
+	\noindent para $i=0,\ 1\ ,2\ \ldots,\ n-1$. Note que no método de Euler implícito, o valor de $y_{i+1}$ só é obtido após resolver o sistema algébrico resultante em cada passo de integração. Como $\*f(t,\*y)$ em geral é não linear, outro método numérico deve ser empregado.
+	
+	\section{Análise de erros}
+	
+	Expandindo a solução exata $\hat{\*y}(t_{i+1})$ do sistema da Equação (\ref{PVI-EDO}) em torno de $\*y_i$ temos
+	\begin{equation}
+	\hat{\*y}(t_{i+1}) = \*y_i + h\frac{d\*y}{dt}\bigg|_{t_i} + \frac{h^2}{2} \frac{d^2\*y}{dt^2}\bigg|_{t_i} + \|\vartheta(h^3)
+	\end{equation}
+	\noindent Sendo que,
+	\begin{align}
+	\frac{d\*y}{dt}\bigg|_{t_i} &= \*f(t_i,\*y_i) = \*f_i\\
+	\frac{d^2\*y}{dt^2}\bigg|_{t_i} &= \bigg[\frac{d}{dt}\bigg(\frac{d\*y}{dt}\bigg)\bigg]_{t_i} = \frac{d}{dt}\bigg[\*f(t,\*y)\bigg]_{t_i}=\bigg[\frac{\partial \*f}{\partial t}\frac{dt}{dt}\bigg]_{t_i} + \bigg[\frac{\partial \*f}{\partial \*y}\frac{d\*y}{dt}\bigg]_{t_i}\nonumber\\
+	&=\*f_{t,i} + \*J_i\*f_i
+	\end{align}
+	\noindent Chegamos a
+	\begin{equation}
+	\hat{\*y}(t_{i+1}) = \*y_i + h\*f_i + \frac{h^2}{2} (\*f_{t,i} + \*J_i\*f_i) + \|\vartheta(h^3)
+	\end{equation}
+	\noindent E comparando com o valor aproximado de $y_{i+1}$ dado pelo método de Euler explícito, obtemos o erro absoluto do método:
+	\begin{align}
+	\*e = \hat{\*y}(t_{i+1}) - \*y_{i+1} &= \bigg[\*y_i + h\*f_i + \frac{h^2}{2} (\*f_{t,i} + \*J_i\*f_i) + \|\vartheta(h^3)\bigg] - \bigg[\*y_i + h\*f_i\bigg]\nonumber\\
+	&= \frac{h^2}{2} (\*f_{t,i} + \*J_i\*f_i) + \|\vartheta(h^3)\nonumber\\
+	&= \|\vartheta(h^2)
+	\end{align}
+	\noindent Ou seja, o \textbf{erro local do método de Euler explícito é da ordem de} $\|h^2$
+	
+	Para determinar o erro do método de Euler implícito, precisamos expandir $\*f(t_{i+1},\*y_{i+1})$ em torno de $\*f(t_i,\*y_i)$
+	\begin{align}
+	\*y_{i+1} &= \*y_i + h[\*f_i + h\*f_{t,i} + \*J_i(\*y_{i+1}-\*y_i)+\|\vartheta(h^2)]\nonumber\\
+	&=\*y_i+h\*f_i + h^2\*f_{t,i} + h^2 \*J_i[\*f_i+\|\vartheta(h^2)]+\|\vartheta(h^3)\nonumber\\
+	&=\*y_i+h\*f_i + h^2(\*f_{t,i} + \*J_i\*f_i) +\|\vartheta(h^3)
+	\end{align}
+	\noindent A expressão do erro fica, então
+	\begin{align}
+	\*e = \hat{\*y}(t_{i+1}) - \*y_{i+1} &= \bigg[\*y_i + h\*f_i + \frac{h^2}{2} (\*f_{t,i} + \*J_i\*f_i) + \|\vartheta(h^3)\bigg] - \bigg[\*y_i+h\*f_i + h^2(\*f_{t,i} + \*J_i\*f_i) +\|\vartheta(h^3)\bigg]\nonumber\\
+	&= -\frac{h^2}{2} (\*f_{t,i} + \*J_i\*f_i)\nonumber\\
+	&= \|\vartheta(h^2)
+	\end{align}
+	\noindent Dessa forma, concluímos que \textbf{o erro local do método de Euler implícito é da ordem de} $\|h^2$.
+	
+	\newpage
+	\section{Análise de Estabilidade}
+	
+	Seja o problema de valor inicial:
+	\begin{equation}
+	\left\{\begin{matrix}\label{P1}
+	\displaystyle\frac{dy}{dt}=-\lambda y\\y(0) = y_0
+	\end{matrix}\right.\quad \lambda>0\in\mathbb{R}
+	\end{equation}
+	\noindent cuja solução analítica é
+	\begin{equation}
+	y(t)=e^{-\lambda t}  \quad\text{  e  } \quad\lim_{t\rightarrow\infty}{e^{-\lambda t}}=0\label{S1}\nonumber
+	\end{equation}
+	\noindent Ao aplicarmos um método numérico para resolver o sistema da Equação (\ref{P1}), esperamos obter uma resposta próxima e com as mesmas características de (\ref{S1}), isto é, desejamos uma resposta assintótica tendendo ao valor nulo.
+	
+	\subsection{Euler explícito}
+	Aplicando o método de Euler explícito, dado na Equação (\ref{EulerE}), temos que:
+	\begin{align}
+	y_1 &= y_0 + h(-\lambda y_0) = y_0(1-h\lambda)\nonumber\\
+	y_2 &= y_1 + h(-\lambda y_1) = y_1(1-h\lambda) = y_0(1-h\lambda)^2\nonumber\\
+	y_3 &= y_2 + h(-\lambda y_2) = y_2(1-h\lambda) = y_0(1-h\lambda)^3\nonumber\\
+	\vdots\nonumber\\
+	y_n &= y_0(1-h\lambda)^n\label{PGEE}
+	\end{align}
+	\noindent Sendo a Equação (\ref{PGEE}) uma progressão geométrica com razão 
+	\begin{equation}
+	q = 1-h\lambda
+	\end{equation}
+	\noindent Analisando a convergência com base no valor de $ q $ temos que:
+	\begin{outline}
+		\1[(i)] $ q>1 $, a progressão diverge assintoticamente;
+		\1[(ii)] $ 0<q<1 $, a progressão converge assintoticamente;
+		\1[(iii)] $ -1<q<0 $, a progressão converge oscilatoriamente;
+		\1[(iv)] $ q < -1 $, a progressão diverge oscilatoriamente;
+	\end{outline} 
+	\noindent Uma vez que o valor de $ \lambda $ é um dado do problema, a única variável que pode controlar a convergência do método é o valor do passo de integração $ h $.
+	
+	Sabemos então que, se
+	\begin{align*}
+	&q>1 \quad\Rightarrow\quad 1-h\lambda>1 \quad\Rightarrow\quad \framebox(50,15){$h<0$}\mapsto\text{\textbf{Diverge}}\\[6pt]
+	0<&q<1\quad\Rightarrow\left\{\begin{matrix}
+	1-h\lambda < 1\\1-h\lambda>0
+	\end{matrix}\right.\quad\Rightarrow\quad\begin{matrix}
+	\framebox(50,15){$h >0$}\\\framebox(50,15){$h<1/\lambda$}
+	\end{matrix}\mapsto\text{\textbf{Converge}}\\[6pt]
+	-1<&q<0\qquad\Rightarrow\left\{\begin{matrix}
+	1-h\lambda < 0\phantom{-}\\1-h\lambda>-1
+	\end{matrix}\right.\ \ \ \ \Rightarrow\quad\begin{matrix}
+	\framebox(50,15){$h >1/\lambda$}\\\framebox(50,15){$h<2/\lambda$}
+	\end{matrix}\mapsto\text{\textbf{Converge (oscilando)}}\\[6pt]
+	&q<-1\quad\Rightarrow\quad 1-h\lambda<-1\quad\Rightarrow\quad \framebox(50,15)[c]{$h>2/\lambda$}\mapsto\text{\textbf{Diverge (oscilando)}}
+	\end{align*}
+	\noindent Concluímos, então, que \textbf{o método de Euler explícito é condicionalmente estável}, e converge assintoticamente apenas para valores de passo de integração no intervalo
+	\begin{equation}
+	h\in\left(0,\ \frac{1}{\lambda}\right)\nonumber
+	\end{equation} 
+	\noindent $ \lambda $ é o chamado \textit{valor característico} do problema e, para sistemas complexos, pode não aparecer explicitamente na função. Além disso, sistemas com múltiplas ($ n $) equações têm múltiplos ($ n $) valores característicos. Nesses casos, podemos estender o resultado acima par
+	\begin{equation}
+	h\in\left(0,\ \frac{1}{\lambda_\text{max}}\right)\nonumber
+	\end{equation}
+	\noindent em que $ \lambda_\text{max} $ é o maior valor característico do sistema.
+	
+	\subsection{Euler implícito}
+	
+	Aplicando o método de Euler implícito, dado na Equação (\ref{EulerI}), para resolver o sistema da Equação (\ref{P1}) obtemos o seguinte:
+	\begin{align}
+	y_1 &= y_0 + h(-\lambda y_1) \Rightarrow y_1 = y_0(1+h\lambda)^{-1}\nonumber\\
+	y_2 &= y_1 + h(-\lambda y_2) \Rightarrow y_2 = y_1(1+h\lambda)^{-1} = y_0(1+h\lambda)^{-2}\nonumber\\
+	y_3 &= y_2 + h(-\lambda y_3) \Rightarrow y_3 = y_2(1+h\lambda)^{-1} = y_0(1+h\lambda)^{-3}\nonumber\\
+	\vdots\nonumber\\
+	y_n &= y_0(1+h\lambda)^{-n}=y_0\bigg(\frac{1}{1+h\lambda}\bigg)^n\label{PGEI}
+	\end{align}
+	\noindent Sendo a Equação (\ref{PGEI}) uma progressão geométrica com razão 
+	\begin{equation}
+	q = \frac{1}{1+h\lambda}
+	\end{equation}
+	\noindent Como o valor de $ \lambda $ é sempre positivo não nulo, e a integração é sempre feita no sentido crescente do tempo $ (h>0) $, temos que $ 0<q<1 $ para todo valor positivo de passo de integração. Com isso concluímos que \textbf{o método de Euler implícito é sempre estável}.
+	
+	
+\end{document}

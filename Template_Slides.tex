@@ -1,0 +1,113 @@
+%\documentclass[aspectratio=169,11pt,professionalfonts,handout]{peqpresentation}
+\documentclass[aspectratio=169,11pt,professionalfonts,presentation]{peqslides}
+
+% For printing, use the "handout" option
+
+\usepackage[brazil]{babel}
+
+% PEQ Presentation default environments:
+% nblock[tcolorbox options]{title}  -> Default theme blocks
+% alblock[tcolorbox options]{title} -> Alert blocks
+% nfitbox[tcolorbox options]{text}  -> Inner text blocks (it can be put inside another block)
+
+
+%%Packages here
+\usepackage{lipsum}
+
+
+%%Table of contents before each section and subsection
+\AtBeginSubsection[]{
+  \begin{frame}<beamer>{}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame} } 
+
+%%Title page configuration
+\title[Evento]{Título}
+\author[Ataíde Neto]{\textbf{Ataíde Souza Andrade Neto}\\[.5ex] }
+\date[Titulo curto]{\scriptsize Data: \today}
+
+
+%%Presentation
+\begin{document}
+\titlepage
+
+	\begin{frame}
+		\tableofcontents
+	\end{frame}
+	
+\section{Primeira seção}
+\subsection{Primeira subseção}
+	\begin{frame}{Exemplo}
+	
+		\begin{alblock}{Documentação}
+			Todos os blocos são criados com o pacote \textbf{tcolorbox}
+		\end{alblock}
+		
+		\begin{tcbraster}[raster columns=2,raster equal height]
+			\uncover<2->{\begin{nblock}[halign title = center]{Modelo 1}
+				\begin{align*}
+				&\frac{du}{dt}=1-u-Du\exp(v)\\[2ex]
+				&\frac{dv}{dt}=-v +BDu\exp(v)-\beta v
+				\end{align*}
+			\end{nblock}}
+			\uncover<3->{\begin{nblock}[halign title = center]{Modelo 2}
+				\begin{align*}
+				&\frac{du}{dt}=1-u-DuR\\[2ex]
+				&\frac{dv}{dt}=-v +BDuR-\beta v\\[2ex]
+				&0=R-\exp(v)
+				\end{align*}
+			\end{nblock}}
+		\end{tcbraster}
+	
+	\end{frame}
+
+\section{Segunda seção}
+\subsection{Primeira subseção}
+
+	\begin{frame}
+		\nfitbox[height=1cm,halign = flush center,colback=black!10!white]{\large\color{vermelho}{\textbf{Programa de Engenharia Química}}}
+		\begin{tcbraster}[raster columns=2,raster equal height]
+			
+			\begin{nblock}{A Coppe}
+				\begin{outline}
+					\1 Instituição de ensino
+					\2 Pós graduação em engenharia
+					\2 Mais de 50 anos
+					\1 PEQ Conceito 7	
+				\end{outline}
+			\end{nblock}
+			\begin{alblock}[colback=white, notitle]{}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{coppe-logo.jpg}
+					\caption{Logo}
+				\end{figure}
+			\end{alblock}
+		\end{tcbraster}
+	
+	\end{frame}
+
+\subsection{Segunda subseção}
+		\begin{frame}
+	\uncover<1->{\begin{alblock}[height=\textheight,colback = white]{Decomposição em valores característicos}\vspace{-.25cm}
+			\uncover<1>{\nfitbox[height=1.85cm,colback=black!02!white]{	Um valor característico (ou autovalor) é um número $ \lambda\in\mathbb{C} $ tal que
+					\begin{equation}
+					\mathbf{Jv}_i=\lambda_i\mathbf{v}_i,\qquad i=1,2,\ldots,N
+					\end{equation}}}\vspace{-0.2cm}
+			\uncover<2>{\nfitbox[height=1.85cm,colback=black!02!white]{O problema de autovalor é formulado da seguinte maneira:
+					\begin{equation}
+					\det(\mathbf{J}-\lambda \mathbf{I})=0
+					\end{equation}}}\vspace{-0.2cm}
+			\uncover<3>{\nfitbox[height=3.25cm,colback=black!02!white]{	A matriz $ \mathbf{J} $ pode então ser fatorada em:
+					\begin{equation}
+					\mathbf{J=P}\boldsymbol{\Lambda}\mathbf{P}^{-1}
+					\end{equation}\vspace{-0.75cm}
+					\begin{outline}
+						\1 $ \mathbf{P}=[v_1\ v_2\ \ldots\ v_N ] $\\[1.5ex]
+						\1 $ \boldsymbol{\Lambda}=\text{diag}(\lambda_1,\lambda_2,\ldots,\lambda_N) $
+			\end{outline}}}
+	\end{alblock}}
+	
+\end{frame}
+
+
+\end{document}
