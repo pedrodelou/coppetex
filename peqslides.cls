@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{peqslide}[2016/03/02 Presentations]
+\ProvidesClass{peqslides}[2016/03/02 Presentations]
 
 \DeclareOption*{
 	\PassOptionsToClass{\CurrentOption}{beamer}%

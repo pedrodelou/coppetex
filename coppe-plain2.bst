@@ -32,13 +32,14 @@ ENTRY
     author
     booktitle
     chapter
+    doi
     eid
     edition
     editor
     howpublished
     institution
     isbn
-    issn
+    %issn
     journal
     key
     month
@@ -268,10 +269,17 @@ FUNCTION {format.isbn}
   if$
 }
 
-FUNCTION {format.issn}
-{ issn empty$
+%FUNCTION {format.issn}
+%{ issn empty$
+%    { "" }
+%    { new.block "ISSN: " issn * }
+%  if$
+%}
+
+FUNCTION {format.doi}
+{ doi empty$
     { "" }
-    { new.block "ISSN: " issn * }
+    { new.block "doi: \textless\url{" doi * "}\textgreater " * }
   if$
 }
 
@@ -770,7 +778,8 @@ FUNCTION {article}
       if$
     }
   if$
-  format.issn output
+  %format.issn output
+  format.doi output
   format.url output
   format.access output
   new.block
@@ -990,7 +999,8 @@ FUNCTION {misc}
   howpublished new.block.checka
   howpublished output
   format.month output
-  format.issn output
+  %format.issn output
+  format.doi output
   format.url output
   format.access output
   new.block
