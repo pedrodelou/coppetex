@@ -580,7 +580,7 @@ T\kern-.1667em\lower.5ex\hbox{E}\kern-.125emX\spacefactor1000}
     \if@restonecol\twocolumn\fi
     }
 \newcommand\printlosymbols{%
-\renewcommand\glossaryname{\listsymbolname}%
+\renewcommand\glossaryname{\ifthenelse{\@englishtrue}{\foreign@listsymbolname}{\local@listsymbolname}}%
 \@input@{\jobname.los}}
 \def\makelosymbols{%
   \newwrite\@losfile
@@ -605,7 +605,7 @@ T\kern-.1667em\lower.5ex\hbox{E}\kern-.125emX\spacefactor1000}
     \endgroup
     \@esphack}}}
 \newcommand\printloabbreviations{%
-\renewcommand\glossaryname{\listabbreviationname}%
+\renewcommand\glossaryname{\ifthenelse{\@englishtrue}{\foreign@listabbreviationname  }{\local@listabbreviationname}}%
 \@input@{\jobname.lab}}
 
 \def\makeloabbreviations{%
@@ -722,9 +722,12 @@ T\kern-.1667em\lower.5ex\hbox{E}\kern-.125emX\spacefactor1000}
   \columnsep 35\p@
   \let\item\@idxitem}
   {\if@restonecol\onecolumn\else\clearpage\fi}
-\newcommand\glossaryname{Glossary}
-\newcommand\listabbreviationname{List of Abbreviations}
-\newcommand\listsymbolname{List of Symbols}
+\newcommand\local@glossaryname{Glossário}
+\newcommand\foreig@glossaryname{Glossary}
+\newcommand\local@listabbreviationname{Lista de Abreviações}
+\newcommand\foreign@listabbreviationname{List of Abbreviations}
+\newcommand\local@listsymbolname{Lista de Símbolos}
+\newcommand\foreign@listsymbolname{List of Symbols}
 \newcommand\local@advisorstring{Orientador}
 \newcommand\foreign@advisorstring{Advisor}
 \ifthenelse{\boolean{maledoc}}{%
