@@ -580,7 +580,7 @@ T\kern-.1667em\lower.5ex\hbox{E}\kern-.125emX\spacefactor1000}
     \if@restonecol\twocolumn\fi
     }
 \newcommand\printlosymbols{%
-\renewcommand\glossaryname{\ifthenelse{\@englishtrue}{\foreign@listsymbolname}{\local@listsymbolname}}%
+\renewcommand\glossaryname{\if@english\foreign@listsymbolname\else\local@listsymbolname\fi}%
 \@input@{\jobname.los}}
 \def\makelosymbols{%
   \newwrite\@losfile
@@ -605,7 +605,7 @@ T\kern-.1667em\lower.5ex\hbox{E}\kern-.125emX\spacefactor1000}
     \endgroup
     \@esphack}}}
 \newcommand\printloabbreviations{%
-\renewcommand\glossaryname{\ifthenelse{\@englishtrue}{\foreign@listabbreviationname  }{\local@listabbreviationname}}%
+\renewcommand\glossaryname{\if@english\foreign@listabbreviationname\else\local@listabbreviationname\fi}%
 \@input@{\jobname.lab}}
 
 \def\makeloabbreviations{%
